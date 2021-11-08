@@ -1,10 +1,16 @@
-import React from 'react';
 import { LoginWithGithub } from './login/LoginWithGithub';
+import { SearchPage } from './search/SearchPage';
 
-function App():JSX.Element {
+const isLoggedIn = true;
+
+function App(): JSX.Element {
   return (
     <>
-      <LoginWithGithub />
+      {isLoggedIn ?
+        <SearchPage />
+        :
+        <LoginWithGithub />
+      }
     </>
   );
 }
