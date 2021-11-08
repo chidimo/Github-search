@@ -1,8 +1,11 @@
 import React from 'react';
+import { LoginWithGithub } from './login/LoginWithGithub';
 
-function App() {
+function App():JSX.Element {
   return (
-    <p>Github search</p>
+    <>
+      <LoginWithGithub />
+    </>
   );
 }
 

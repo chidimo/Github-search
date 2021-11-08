@@ -3834,6 +3834,11 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
+
 clean-css@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.2.3.tgz#507b5de7d97b48ee53d84adb0160ff6216380f78"
@@ -10225,6 +10230,11 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-login-github@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-login-github/-/react-login-github-1.0.7.tgz#97b9ca5a612e6faa3dec3fafdb6702a8dcce8e0d"
+  integrity sha512-pXJ4LTESA2VP7VU+p7JXpAZ61aGp8UjQVbqA4F6e7R1V5P95jDgl2OVWfd9zhJdEMTejYPwJO/xmRy2hitAdgQ==
 
 react-refresh@^0.8.3:
   version "0.8.3"
