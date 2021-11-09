@@ -1,6 +1,6 @@
 export enum TabTypes {
-  'REPO' = 'REPO',
-  'USERS' = 'USERS'
+  REPO = 'REPO',
+  USERS = 'USERS'
 }
 
 export interface RepoResultInterface {

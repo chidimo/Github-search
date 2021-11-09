@@ -2,7 +2,7 @@
 import clx from 'classnames';
 import { useCallback, useState } from 'react';
 import { CgChevronDown } from 'react-icons/cg';
-import styles from './useravatar.module.scss';
+import styles from './UserAvatar.module.scss';
 
 const userName = 'Jane Doe';
 const img =
