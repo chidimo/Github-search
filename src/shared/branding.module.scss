@@ -1,0 +1,23 @@
+.brand_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.my_30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.brand_name {
+  font-weight: bold;
+  margin: 0 0 0 10px;
+  font-size: 2rem;
+}
+
+.hide_brand_name {
+  display: none;
+
+  @media only screen and (min-width:600px) {
+    display: block;
+  }
+}
