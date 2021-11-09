@@ -1,0 +1,56 @@
+.avatar_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 18px;
+  margin-left: 10px;
+  white-space: nowrap;
+  display: none;
+
+  @media only screen and (min-width:600px) {
+    display: block;
+  }
+}
+
+.wrap_name {
+  white-space: normal;
+}
+
+.dropdown_toggle {
+  margin-top: 7px;
+  position: relative;
+}
+
+.dropdown::after {
+  position: absolute;
+    display: inline-block;
+    content: "";
+    top: -14px;
+    right: 10px;
+    border: 7px solid transparent;
+    border-bottom-color: #c4c4c4;
+}
+
+.dropdown {
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  top: 25px;
+  right: -10px;
+  color: red;
+  padding: 10px;
+  border-radius: 3px;
+  border: 0.5px solid #c4c4c4;
+}
+
+.dropdown_toggle:hover .dropdown {
+  display: block;
+}

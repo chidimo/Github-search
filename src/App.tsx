@@ -1,8 +1,23 @@
-import React from 'react';
+import { LoginWithGithub } from './login/LoginWithGithub';
+import { Navbar } from './navbar/Navbar';
+import { SearchResults } from './result/SearchResults';
+import { SearchPage } from './search/SearchPage';
 
-function App() {
+const isLoggedIn = true;
+
+function App(): JSX.Element {
   return (
-    <p>Github search</p>
+    <>
+      {isLoggedIn ? (
+        <>
+          <Navbar />
+          {/* <SearchPage /> */}
+          <SearchResults />
+        </>
+      ) : (
+        <LoginWithGithub />
+      )}
+    </>
   );
 }
 
