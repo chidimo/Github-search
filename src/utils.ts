@@ -3,7 +3,7 @@ export const formatNumberWithk = (num: number): string => {
     return num.toString();
   }
 
-  return `${(num / 100).toFixed(1)}k`.replace('.0', '');
+  return `${(num / 1000).toFixed(1)}k`.replace('.0', '');
 };
 
 export const formatAsNumber = (num: number | bigint): string => {
