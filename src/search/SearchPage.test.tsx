@@ -3,9 +3,8 @@ import { SearchPage } from './SearchPage';
 
 
 describe('Search page', () => {
-
   it('renders search page', () => {
     render(<SearchPage />);
-    expect(screen.getByText(/search github/)).toBeInTheDocument();
+    expect(screen.getByText(/search github/i)).toBeInTheDocument();
   });
 });

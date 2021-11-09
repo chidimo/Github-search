@@ -7,13 +7,14 @@ const isLoggedIn = true;
 function App(): JSX.Element {
   return (
     <>
-      {isLoggedIn ?
+      {isLoggedIn ? (
         <>
-        <Navbar />
-        <SearchPage /></>
-        :
+          <Navbar />
+          <SearchPage />
+        </>
+      ) : (
         <LoginWithGithub />
-      }
+      )}
     </>
   );
 }
