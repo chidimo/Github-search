@@ -1,4 +1,7 @@
+/* eslint-disable no-console */
 import { useMemo, useState } from 'react';
+import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
+
 import { formatAsNumber } from '../utils';
 import {
   DataArrayInterface,
@@ -28,7 +31,7 @@ const users: UserResultInterface[] = [
 ];
 
 export const SearchResults = (): JSX.Element => {
-  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
+  const [activeTab, setActiveTab] = useState<string>(TabTypes.REPO);
 
   const userCount = 120;
   const repoCount = 492_000;
@@ -48,7 +51,7 @@ export const SearchResults = (): JSX.Element => {
         onClick: () => setActiveTab(TabTypes.USERS),
       },
     ],
-    [ activeTab ]
+    [activeTab]
   );
 
   return (
@@ -74,6 +77,25 @@ export const SearchResults = (): JSX.Element => {
           users.map((res: UserResultInterface) => {
             return <ResultCardUser key={res.id} result={res} />;
           })}
+
+        <div>
+          <span
+            className="pointer"
+            onClick={() => {
+              console.log('Previous');
+            }}
+          >
+            <MdNavigateBefore size={30} />
+          </span>
+          <span
+            className="pointer"
+            onClick={() => {
+              console.log('Next');
+            }}
+          >
+            <MdNavigateNext size={30} />
+          </span>
+        </div>
       </div>
     </div>
   );
