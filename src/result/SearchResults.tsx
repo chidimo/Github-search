@@ -1,5 +1,12 @@
-import { RepoResultInterface } from './interfaces';
-import { ResultCard } from './ResultCard';
+import { useState } from 'react';
+import { formatAsNumber } from '../utils';
+import {
+  RepoResultInterface,
+  TabTypes,
+  UserResultInterface,
+} from './interfaces';
+import { ResultCardRepo } from './ResultCardRepo';
+import { ResultCardUser } from './ResultCardUser';
 import styles from './SearchResults.module.scss';
 import { ToggleResultCategory } from './ToggleResultCategory';
 
@@ -13,39 +20,53 @@ const repos: RepoResultInterface[] = [
     license: 'MIT',
     updated: new Date(),
   },
-  {
-    id: 2,
-    name: 'DrKLO/Telegram',
-    description: 'Some random text',
-    language: 'python',
-    stars: 127_000,
-    license: 'MIT',
-    updated: new Date(),
-  },
-  {
-    id: 1,
-    name: 'DrKLO/Telegram',
-    description: 'Some random text',
-    language: 'java',
-    stars: 127_000,
-    license: 'MIT',
-    updated: new Date(),
-  },
+];
+
+const users: UserResultInterface[] = [
+  { id: 0, name: 'chidi', about: 'you too tafia' },
 ];
 
 export const SearchResults = (): JSX.Element => {
-  const repoCount = 492_000;
+  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
+
   const userCount = 120;
-  
+  const repoCount = 492_000;
+
   return (
-    <div>
-      <ToggleResultCategory userCount={userCount} repoCount={repoCount} />
+    <div className={styles.search_result_container}>
+      <ToggleResultCategory
+        repo={{
+          count: repoCount,
+          isActive: activeTab === TabTypes.REPO,
+          onClick: () => setActiveTab(TabTypes.REPO),
+        }}
+        users={{
+          count: userCount,
+          isActive: activeTab === TabTypes.USERS,
+          onClick: () => setActiveTab(TabTypes.USERS),
+        }}
+      />
 
-      {repos.map((res: RepoResultInterface) => {
-        const { id } = res;
+      <div className={styles.search_result_list}>
+        <div>
+          {activeTab === TabTypes.REPO && (
+            <h1>{formatAsNumber(repoCount)} repository results</h1>
+          )}
+          {activeTab === TabTypes.USERS && (
+            <h1>{formatAsNumber(userCount)} users</h1>
+          )}
+        </div>
 
-        return <ResultCard key={id} result={res} />;
-      })}
+        {activeTab === TabTypes.REPO &&
+          repos.map((res: RepoResultInterface) => {
+            return <ResultCardRepo key={res.id} result={res} />;
+          })}
+
+        {activeTab === TabTypes.USERS &&
+          users.map((res: UserResultInterface) => {
+            return <ResultCardUser key={res.id} result={res} />;
+          })}
+      </div>
     </div>
   );
 };

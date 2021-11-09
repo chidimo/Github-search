@@ -1,3 +1,8 @@
+export enum TabTypes {
+  'REPO' = 'REPO',
+  'USERS' = 'USERS'
+}
+
 export interface RepoResultInterface {
   id: string | number;
   name: string;
@@ -9,6 +14,7 @@ export interface RepoResultInterface {
 }
 
 export interface UserResultInterface {
+  id: string | number;
   name: string;
   about: string;
 }

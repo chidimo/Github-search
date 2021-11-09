@@ -1,11 +1,12 @@
+import { formatNumberWithk } from '../utils';
 import { RepoResultInterface } from './interfaces';
-import styles from './ResultCard.module.scss';
+import styles from './ResultCardRepo.module.scss';
 
 type ResultCardProps = {
   result: RepoResultInterface;
 };
 
-export const ResultCard = (props: ResultCardProps): JSX.Element => {
+export const ResultCardRepo = (props: ResultCardProps): JSX.Element => {
   const { result } = props;
   const { name, description, stars, license, language, updated } = result;
   return (
@@ -13,7 +14,7 @@ export const ResultCard = (props: ResultCardProps): JSX.Element => {
       <h1>{name}</h1>
       <p>{description}</p>
       <p>
-        {stars} Stars | {language} | {license} | {JSON.stringify(updated)}
+        {formatNumberWithk(stars)} Stars | {language} | {license} | {JSON.stringify(updated)}
       </p>
     </div>
   );
