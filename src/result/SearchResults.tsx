@@ -31,7 +31,7 @@ const users: UserResultInterface[] = [
 ];
 
 export const SearchResults = (): JSX.Element => {
-  const [activeTab, setActiveTab] = useState<string>(TabTypes.REPO);
+  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
 
   const userCount = 120;
   const repoCount = 492_000;
@@ -51,7 +51,7 @@ export const SearchResults = (): JSX.Element => {
         onClick: () => setActiveTab(TabTypes.USERS),
       },
     ],
-    [activeTab]
+    [ activeTab ]
   );
 
   return (
@@ -69,14 +69,14 @@ export const SearchResults = (): JSX.Element => {
         </div>
 
         {activeTab === TabTypes.REPO &&
-          repos.map((res: RepoResultInterface) => {
-            return <ResultCardRepo key={res.id} result={res} />;
-          })}
+          repos.map((res: RepoResultInterface) => (
+            <ResultCardRepo key={res.id} result={res} />
+          ))}
 
         {activeTab === TabTypes.USERS &&
-          users.map((res: UserResultInterface) => {
-            return <ResultCardUser key={res.id} result={res} />;
-          })}
+          users.map((res: UserResultInterface) => (
+            <ResultCardUser key={res.id} result={res} />
+          ))}
 
         <div>
           <span
