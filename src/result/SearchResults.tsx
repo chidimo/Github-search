@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { formatAsNumber } from '../utils';
 import {
+  DataArrayInterface,
   RepoResultInterface,
   TabTypes,
   UserResultInterface,
@@ -32,20 +33,27 @@ export const SearchResults = (): JSX.Element => {
   const userCount = 120;
   const repoCount = 492_000;
 
+  const dataArray: DataArrayInterface[] = useMemo(
+    () => [
+      {
+        name: 'Repositories',
+        count: repoCount,
+        isActive: activeTab === TabTypes.REPO,
+        onClick: () => setActiveTab(TabTypes.REPO),
+      },
+      {
+        name: 'Users',
+        count: userCount,
+        isActive: activeTab === TabTypes.USERS,
+        onClick: () => setActiveTab(TabTypes.USERS),
+      },
+    ],
+    [ activeTab ]
+  );
+
   return (
     <div className={styles.search_result_container}>
-      <ToggleResultCategory
-        repo={{
-          count: repoCount,
-          isActive: activeTab === TabTypes.REPO,
-          onClick: () => setActiveTab(TabTypes.REPO),
-        }}
-        users={{
-          count: userCount,
-          isActive: activeTab === TabTypes.USERS,
-          onClick: () => setActiveTab(TabTypes.USERS),
-        }}
-      />
+      <ToggleResultCategory dataArray={dataArray} />
 
       <div className={styles.search_result_list}>
         <div>
