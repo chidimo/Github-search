@@ -1,5 +1,6 @@
 import { LoginWithGithub } from './login/LoginWithGithub';
 import { Navbar } from './navbar/Navbar';
+import { SearchResults } from './result/SearchResults';
 import { SearchPage } from './search/SearchPage';
 
 const isLoggedIn = true;
@@ -10,7 +11,8 @@ function App(): JSX.Element {
       {isLoggedIn ? (
         <>
           <Navbar />
-          <SearchPage />
+          {/* <SearchPage /> */}
+          <SearchResults />
         </>
       ) : (
         <LoginWithGithub />
