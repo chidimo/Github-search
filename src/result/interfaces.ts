@@ -1,6 +1,11 @@
+
 export enum TabTypes {
   REPO = 'REPO',
   USERS = 'USERS',
+}
+
+export interface GhResponseInterface {
+  code: string
 }
 
 export interface RepoResultInterface {
