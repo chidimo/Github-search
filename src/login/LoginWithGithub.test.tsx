@@ -1,7 +1,9 @@
-import { render, screen } from '@testing-library/react';
-import {LoginWithGithub} from './LoginWithGithub';
+import App from '../App';
+import { render, screen } from '../test-utils/render';
 
-test('renders login button', () => {
-  render(<LoginWithGithub />);
-  expect(screen.getByText(/login to github/i)).toBeInTheDocument();
+describe('Authentication', () => {
+  it('renders login button', () => {
+    render(<App />);
+    expect(screen.getByText(/login to github/i)).toBeInTheDocument();
+  });
 });
