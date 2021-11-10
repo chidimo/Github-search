@@ -1,5 +1,6 @@
 const pr = process.env;
 
+export const IS_DEV: boolean = pr.NODE_ENV === 'development';
 export const IS_TEST: boolean = pr.NODE_ENV === 'test';
 export const IS_PROD: boolean = pr.NODE_ENV === 'production';
 

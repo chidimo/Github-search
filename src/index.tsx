@@ -7,6 +7,8 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { reduxPersistor, store } from './store/store';
+import { ApolloProvider } from '@apollo/client';
+import { appCache } from './cache/appCache';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +17,9 @@ ReactDOM.render(
         persistor={reduxPersistor}
         loading={<p>Loading persistor</p>}
       >
-        <App />
+        <ApolloProvider client={appCache}>
+          <App />
+        </ApolloProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,
