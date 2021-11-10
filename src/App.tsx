@@ -9,14 +9,13 @@ function App(): JSX.Element {
   const userLoggedIn = useSelector(selectLoginState);
   return (
     <>
-      {userLoggedIn ? (
+      {!userLoggedIn && <LoginWithGithub />}
+      {userLoggedIn && (
         <>
           <Navbar />
           {/* <SearchPage /> */}
           <SearchResults />
         </>
-      ) : (
-        <LoginWithGithub />
       )}
     </>
   );
