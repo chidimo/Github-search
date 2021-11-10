@@ -1,7 +1,8 @@
-/* eslint-disable no-console */
 import clx from 'classnames';
 import { useCallback, useState } from 'react';
 import { CgChevronDown } from 'react-icons/cg';
+import { useDispatch } from 'react-redux';
+import { resetUserLoggedIn } from '../store/login';
 import styles from './useravatar.module.scss';
 
 const userName = 'Jane Doe';
@@ -9,15 +10,14 @@ const img =
   'https://ui-avatars.com/api/?name=user&background=43489b&color=fff&size=128';
 
 export const UserAvatar = (): JSX.Element => {
+  const dispatch = useDispatch();
   const [ dropdownOpen, setDropdownOpen ] = useState<boolean>(false);
 
   const toggleDropdown = useCallback(() => {
     setDropdownOpen(!dropdownOpen);
   }, [ dropdownOpen ]);
 
-  const handleLogout = () => {
-    console.log('Logout');
-  };
+  const handleLogout = () => dispatch(resetUserLoggedIn());
 
   return (
     <div className={styles.avatar_wrapper}>
@@ -33,12 +33,11 @@ export const UserAvatar = (): JSX.Element => {
         <CgChevronDown size={20} />
 
         <div
-          onClick={handleLogout}
           className={clx([ styles.dropdown ], {
             [styles.dropdown_hidden]: dropdownOpen,
           })}
         >
-          <span>Logout</span>
+          <span onClick={handleLogout}>Logout</span>
         </div>
       </span>
     </div>
