@@ -1,21 +1,21 @@
+import { useSelector } from 'react-redux';
 import { LoginWithGithub } from './login/LoginWithGithub';
 import { Navbar } from './navbar/Navbar';
 import { SearchResults } from './result/SearchResults';
 import { SearchPage } from './search/SearchPage';
-
-const isLoggedIn = true;
+import { selectLoginState } from './store/login';
 
 function App(): JSX.Element {
+  const userLoggedIn = useSelector(selectLoginState);
   return (
     <>
-      {isLoggedIn ? (
+      {!userLoggedIn && <LoginWithGithub />}
+      {userLoggedIn && (
         <>
           <Navbar />
           {/* <SearchPage /> */}
           <SearchResults />
         </>
-      ) : (
-        <LoginWithGithub />
       )}
     </>
   );
