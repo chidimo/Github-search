@@ -16,22 +16,22 @@ import { ToggleResultCategory } from './ToggleResultCategory';
 
 const repos: RepoResultInterface[] = [
   {
-    id: 0,
+    id: '0',
     name: 'DrKLO/Telegram',
     description: 'Some random text',
-    language: 'javascript',
-    stars: 127_000,
-    license: 'MIT',
-    updated: new Date(),
+    updatedAt: '2021-11-10T21:48:36Z',
+    primaryLanguage: { name: 'javascript' },
+    stargazerCount: 127_000,
+    licenseInfo: { name: 'MIT' },
   },
 ];
 
 const users: UserResultInterface[] = [
-  { id: 0, name: 'chidi', about: 'you too tafia' },
+  { id: '0', name: 'chidi', bio: 'you too tafia' },
 ];
 
 export const SearchResults = (): JSX.Element => {
-  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
+  const [activeTab, setActiveTab] = useState<string>(TabTypes.REPO);
 
   const userCount = 120;
   const repoCount = 492_000;
@@ -51,7 +51,7 @@ export const SearchResults = (): JSX.Element => {
         onClick: () => setActiveTab(TabTypes.USERS),
       },
     ],
-    [ activeTab ]
+    [activeTab]
   );
 
   return (

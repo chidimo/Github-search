@@ -1,27 +1,34 @@
-
 export enum TabTypes {
   REPO = 'REPO',
   USERS = 'USERS',
 }
 
 export interface GhResponseInterface {
-  code: string
+  code: string;
 }
 
 export interface RepoResultInterface {
-  id: string | number;
-  name: string;
-  language: string;
-  description?: string;
-  stars: number;
-  license: string;
-  updated: Date;
+  __typename?: string;
+  id: string;
+  nameWithOwner: string;
+  updatedAt: string;
+  description: string;
+  stargazerCount: number;
+  licenseInfo?: {
+    __typename?: string;
+    name: string;
+  };
+  primaryLanguage?: {
+    __typename?: string;
+    name: string;
+  };
 }
 
 export interface UserResultInterface {
-  id: string | number;
+  id: string;
+  bio: string;
   name: string;
-  about: string;
+  __typename?: string;
 }
 
 export interface DataArrayInterface {

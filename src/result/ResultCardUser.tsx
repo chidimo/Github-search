@@ -7,11 +7,11 @@ type ResultCardUserProps = {
 
 export const ResultCardUser = (props: ResultCardUserProps): JSX.Element => {
   const { result } = props;
-  const { name, about } = result;
+  const { name, bio } = result;
   return (
     <div className={styles.result_card_container}>
       <h1>{name}</h1>
-      <p>{about}</p>
+      <p>{bio}</p>
     </div>
   );
 };
