@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 
 import styles from './searchform.module.scss';
 import { useNavigate } from 'react-location';
+import { TabTypes } from '../result/interfaces';
 
 type SearchFormProps = {
   hasSubmitButton?: boolean;
@@ -21,14 +22,17 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
       if (search.length === 0) {
         return;
       }
-      navigate(`/results?searchTerm=${search}`);
+      navigate(`/results?activeTab=${TabTypes.REPO}&searchTerm=${search}`);
     },
     [ search ]
   );
 
-
   return (
-    <form action="" onSubmit={handleSubmitSearchPage} className={styles.search_form}>
+    <form
+      action=""
+      onSubmit={handleSubmitSearchPage}
+      className={styles.search_form}
+    >
       <div className={styles.search_input_wrapper}>
         <label htmlFor="search" className={styles.label}>
           Search

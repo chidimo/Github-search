@@ -1,5 +1,5 @@
-import { useMemo, useReducer, useState, Reducer, useEffect } from 'react';
-import { useSearch } from 'react-location';
+import { useMemo, useReducer, Reducer, useEffect } from 'react';
+import { useNavigate, useSearch } from 'react-location';
 
 import {
   TabTypes,
@@ -28,8 +28,8 @@ import {
 import { Pagination } from './Pagination';
 
 export const SearchResults = (): JSX.Element => {
-  const { after, searchTerm } = useSearch();
-  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
+  const navigate = useNavigate();
+  const { activeTab, after, searchTerm } = useSearch();
 
   const [ queryVariables, dispatch ] = useReducer<
     Reducer<SearchRepoType, SearchReducerType>
@@ -63,13 +63,19 @@ export const SearchResults = (): JSX.Element => {
         name: 'Repositories',
         count: repoCount,
         isActive: activeTab === TabTypes.REPO,
-        onClick: () => setActiveTab(TabTypes.REPO),
+        onClick: () =>
+          navigate({
+            search: (prev: any) => ({ ...prev, activeTab: TabTypes.REPO }),
+          }),
       },
       {
         name: 'Users',
         count: userCount,
         isActive: activeTab === TabTypes.USERS,
-        onClick: () => setActiveTab(TabTypes.USERS),
+        onClick: () =>
+          navigate({
+            search: (prev: any) => ({ ...prev, activeTab: TabTypes.USERS }),
+          }),
       },
     ],
     [ activeTab, data, usersData ]
