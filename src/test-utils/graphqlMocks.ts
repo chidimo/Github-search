@@ -10,6 +10,7 @@ export const graphqlMocks = [
       data: {
         viewer: {
           login: 'GithubUserLogin',
+          avatarUrl: 'some-string',
           __typename: 'User',
         },
       },
