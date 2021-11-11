@@ -41,6 +41,7 @@ export interface UserResultInterface {
   id: string;
   url: string;
   bio: string;
+  login: string;
   name: string;
   __typename?: string;
 }
@@ -60,6 +61,18 @@ export interface SearchReturnInterface {
       repositoryCount: number;
       pageInfo: PageInfoInterface;
       edges: { node: RepoResultInterface }[];
+    };
+  };
+}
+
+export interface SearchUserReturnInterface {
+  error: any;
+  loading: boolean;
+  data: {
+    search: {
+      userCount: number;
+      pageInfo: PageInfoInterface;
+      edges: { node: UserResultInterface }[];
     };
   };
 }
