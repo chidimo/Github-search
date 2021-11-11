@@ -3,6 +3,13 @@ export enum TabTypes {
   USERS = 'USERS',
 }
 
+export interface PageInfoInterface {
+  startCursor: string;
+  endCursor: string;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
 export interface GhResponseInterface {
   code: string;
 }
@@ -10,6 +17,7 @@ export interface GhResponseInterface {
 export interface RepoResultInterface {
   __typename?: string;
   id: string;
+  url: string;
   nameWithOwner: string;
   updatedAt: string;
   description: string;
@@ -26,6 +34,7 @@ export interface RepoResultInterface {
 
 export interface UserResultInterface {
   id: string;
+  url: string;
   bio: string;
   name: string;
   __typename?: string;
@@ -36,4 +45,16 @@ export interface DataArrayInterface {
   count: number;
   isActive: boolean;
   onClick: () => void;
+}
+
+export interface SearchReturnInterface {
+  error: any;
+  loading: boolean;
+  data: {
+    search: {
+      repositoryCount: number;
+      pageInfo: PageInfoInterface;
+      edges: { node: RepoResultInterface }[];
+    };
+  };
 }
