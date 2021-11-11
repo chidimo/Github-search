@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import { reduxPersistor, store } from './store/store';
 import { ApolloProvider } from '@apollo/client';
 import { appCache } from './cache/appCache';
+import { ErrorBoundary } from './ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +19,9 @@ ReactDOM.render(
         loading={<p>Loading persistor</p>}
       >
         <ApolloProvider client={appCache}>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </ApolloProvider>
       </PersistGate>
     </Provider>
