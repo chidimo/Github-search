@@ -7,13 +7,11 @@ import { resetUserLoggedIn } from '../store/login';
 import { useGetAuthUser } from './queryHooks';
 import styles from './useravatar.module.scss';
 
-const img =
-  'https://ui-avatars.com/api/?name=user&background=43489b&color=fff&size=128';
-
 export const UserAvatar = (): JSX.Element => {
   const navigate = useNavigate();
-  const login = useGetAuthUser();
   const dispatch = useDispatch();
+
+  const { login, avatarUrl } = useGetAuthUser();
   const [ dropdownOpen, setDropdownOpen ] = useState<boolean>(false);
 
   const toggleDropdown = useCallback(() => {
@@ -27,7 +25,7 @@ export const UserAvatar = (): JSX.Element => {
 
   return (
     <div className={styles.avatar_wrapper}>
-      <img src={img} alt="avatar" className={styles.avatar} />
+      <img src={avatarUrl} alt="avatar" className={styles.avatar} />
       <p
         className={clx([ styles.username ], {
           [styles.wrap_name]: login?.length > 10,

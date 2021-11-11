@@ -3,6 +3,11 @@ export enum TabTypes {
   USERS = 'USERS',
 }
 
+export interface AuthUserInterface {
+  login: string;
+  avatarUrl: string;
+}
+
 export interface PageInfoInterface {
   startCursor: string;
   endCursor: string;
