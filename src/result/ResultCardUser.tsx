@@ -7,10 +7,12 @@ type ResultCardUserProps = {
 
 export const ResultCardUser = (props: ResultCardUserProps): JSX.Element => {
   const { result } = props;
-  const { name, bio } = result;
+  const { name, bio, url } = result;
   return (
     <div className={styles.result_card_container}>
-      <h1>{name}</h1>
+      <h1 className="card_title__link">
+        <a href={url}>{name}</a>
+      </h1>
       <p>{bio}</p>
     </div>
   );
