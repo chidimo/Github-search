@@ -1,13 +1,13 @@
 import { useQuery, gql } from '@apollo/client';
 
-export const useGetAuthUser = (): string => {
-  const QUERY = `
-  query Username {
-    viewer {
-      login
-    }
-  }`;
+export const QUERY_AUTH_USER = `
+query Username {
+  viewer {
+    login
+  }
+}`;
 
-  const { data } = useQuery(gql(QUERY));
+export const useGetAuthUser = (): string => {
+  const { data } = useQuery(gql(QUERY_AUTH_USER));
   return data?.viewer?.login;
 };
