@@ -8,7 +8,7 @@ import {
   UserResultInterface,
 } from './interfaces';
 import { formatAsNumber } from '../utils';
-import { useSearchRepo } from '../shared/queryHooks';
+import { useSearchRepo, useSearchUsers } from '../shared/queryHooks';
 import { ResultCardRepo } from './ResultCardRepo';
 import { ResultCardUser } from './ResultCardUser';
 import styles from './SearchResults.module.scss';
@@ -19,15 +19,17 @@ import {
   SearchRepoType,
   SearchReducerType,
   SearchActionType,
+  searchUserReducer,
+  initSearchUserState,
+  SearchUserStateType,
+  SearchUserReducerType,
+  SearchUserActionType,
 } from './reducer';
 import { Pagination } from './Pagination';
 
-const users: UserResultInterface[] = [
-  { id: '0', url: 'https://github.com', name: 'chidi', bio: 'you too tafia' },
-];
-
 export const SearchResults = (): JSX.Element => {
   const { after, searchTerm } = useSearch();
+  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
 
   const [ queryVariables, dispatch ] = useReducer<
     Reducer<SearchRepoType, SearchReducerType>
@@ -39,10 +41,21 @@ export const SearchResults = (): JSX.Element => {
     data?.search?.edges?.map(
       (edge: { node: RepoResultInterface }) => edge.node
     ) || [];
-  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
 
-  const userCount = 120;
   const repoCount = data?.search?.repositoryCount;
+
+  const [ userQueryVariables, userDispatch ] = useReducer<
+    Reducer<SearchUserStateType, SearchUserReducerType>
+  >(searchUserReducer, initSearchUserState);
+
+  const { loading: loadingUsers, data: usersData } =
+    useSearchUsers(userQueryVariables);
+
+  const userCount = usersData?.search?.userCount;
+  const users_list =
+    usersData?.search?.edges?.map(
+      (edge: { node: UserResultInterface }) => edge.node
+    ) || [];
 
   const dataArray: DataArrayInterface[] = useMemo(
     () => [
@@ -59,12 +72,19 @@ export const SearchResults = (): JSX.Element => {
         onClick: () => setActiveTab(TabTypes.USERS),
       },
     ],
-    [ activeTab, data ]
+    [ activeTab, data, usersData ]
   );
 
   useEffect(() => {
     dispatch({
       type: SearchActionType.SET_SEARCH_FILTER,
+      payload: {
+        after,
+        searchTerm,
+      },
+    });
+    userDispatch({
+      type: SearchUserActionType.SET_USER_SEARCH,
       payload: {
         after,
         searchTerm,
@@ -86,15 +106,19 @@ export const SearchResults = (): JSX.Element => {
           )}
         </div>
 
-        {loadingRepos && <p>Loading repositories</p>}
+        {activeTab === TabTypes.REPO && loadingRepos && (
+          <p>Loading repositories</p>
+        )}
 
         {activeTab === TabTypes.REPO &&
           repo_list.map((res: RepoResultInterface) => (
             <ResultCardRepo key={res.id} result={res} />
           ))}
 
+        {activeTab === TabTypes.USERS && loadingUsers && <p>Loading users</p>}
+
         {activeTab === TabTypes.USERS &&
-          users.map((res: UserResultInterface) => (
+          users_list.map((res: UserResultInterface) => (
             <ResultCardUser key={res.id} result={res} />
           ))}
 

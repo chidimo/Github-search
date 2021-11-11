@@ -30,3 +30,30 @@ query searchRepos($searchTerm: String!, $first: Int, $after: String) {
   }
 }
 `;
+
+export const QUERY_USERS = `
+query searchUsers($searchTerm: String!, $first: Int, $after: String) {
+  search(query: $searchTerm,  first: $first, after: $after, type: USER) {
+    userCount
+    edges {
+      cursor
+      node {
+        ... on User {
+          id
+          url
+          bio
+          name
+          email
+          login
+        }
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+`;

@@ -1,8 +1,11 @@
 import { useQuery, gql } from '@apollo/client';
 
-import { SearchReturnInterface } from '../result/interfaces';
-import { SearchRepoType } from '../result/reducer';
-import { QUERY_REPO } from './queries';
+import {
+  SearchReturnInterface,
+  SearchUserReturnInterface,
+} from '../result/interfaces';
+import { SearchRepoType, SearchUserStateType } from '../result/reducer';
+import { QUERY_REPO, QUERY_USERS } from './queries';
 
 export const useSearchRepo = ({
   first = 10,
@@ -13,7 +16,22 @@ export const useSearchRepo = ({
 
   const { loading, data, error } = useQuery(gql(QUERY_REPO), {
     variables,
-    fetchPolicy:'cache-and-network'
+    fetchPolicy: 'cache-and-network',
+  });
+
+  return { loading, data, error };
+};
+
+export const useSearchUsers = ({
+  first = 10,
+  after = null,
+  searchTerm = '',
+}: SearchUserStateType = {}): SearchUserReturnInterface => {
+  const variables = { first, after, searchTerm };
+
+  const { loading, data, error } = useQuery(gql(QUERY_USERS), {
+    variables,
+    fetchPolicy: 'cache-and-network',
   });
 
   return { loading, data, error };
