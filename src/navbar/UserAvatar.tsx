@@ -1,6 +1,7 @@
 import clx from 'classnames';
 import { useCallback, useState } from 'react';
 import { CgChevronDown } from 'react-icons/cg';
+import { useNavigate } from 'react-location';
 import { useDispatch } from 'react-redux';
 import { resetUserLoggedIn } from '../store/login';
 import { useGetAuthUser } from './queryHooks';
@@ -10,6 +11,7 @@ const img =
   'https://ui-avatars.com/api/?name=user&background=43489b&color=fff&size=128';
 
 export const UserAvatar = (): JSX.Element => {
+  const navigate = useNavigate();
   const login = useGetAuthUser();
   const dispatch = useDispatch();
   const [ dropdownOpen, setDropdownOpen ] = useState<boolean>(false);
@@ -18,7 +20,10 @@ export const UserAvatar = (): JSX.Element => {
     setDropdownOpen(!dropdownOpen);
   }, [ dropdownOpen ]);
 
-  const handleLogout = () => dispatch(resetUserLoggedIn());
+  const handleLogout = () => {
+    dispatch(resetUserLoggedIn());
+    navigate('/');
+  };
 
   return (
     <div className={styles.avatar_wrapper}>
