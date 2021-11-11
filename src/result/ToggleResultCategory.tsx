@@ -27,7 +27,9 @@ export const ToggleResultCategory = (
             })}
           >
             <p>{name}</p>
-            <p className={styles.result_count}>{formatNumberWithk(count)}</p>
+            {count && (
+              <p className={styles.result_count}>{formatNumberWithk(count)}</p>
+            )}
           </div>
         );
       })}
