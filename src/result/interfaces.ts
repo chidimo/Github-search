@@ -1,27 +1,49 @@
-
 export enum TabTypes {
   REPO = 'REPO',
   USERS = 'USERS',
 }
 
+export interface AuthUserInterface {
+  login: string;
+  avatarUrl: string;
+}
+
+export interface PageInfoInterface {
+  startCursor: string;
+  endCursor: string;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
 export interface GhResponseInterface {
-  code: string
+  code: string;
 }
 
 export interface RepoResultInterface {
-  id: string | number;
-  name: string;
-  language: string;
-  description?: string;
-  stars: number;
-  license: string;
-  updated: Date;
+  __typename?: string;
+  id: string;
+  url: string;
+  nameWithOwner: string;
+  updatedAt: string;
+  description: string;
+  stargazerCount: number;
+  licenseInfo?: {
+    __typename?: string;
+    name: string;
+  };
+  primaryLanguage?: {
+    __typename?: string;
+    name: string;
+  };
 }
 
 export interface UserResultInterface {
-  id: string | number;
+  id: string;
+  url: string;
+  bio: string;
+  login: string;
   name: string;
-  about: string;
+  __typename?: string;
 }
 
 export interface DataArrayInterface {
@@ -29,4 +51,28 @@ export interface DataArrayInterface {
   count: number;
   isActive: boolean;
   onClick: () => void;
+}
+
+export interface SearchReturnInterface {
+  error: any;
+  loading: boolean;
+  data: {
+    search: {
+      repositoryCount: number;
+      pageInfo: PageInfoInterface;
+      edges: { node: RepoResultInterface }[];
+    };
+  };
+}
+
+export interface SearchUserReturnInterface {
+  error: any;
+  loading: boolean;
+  data: {
+    search: {
+      userCount: number;
+      pageInfo: PageInfoInterface;
+      edges: { node: UserResultInterface }[];
+    };
+  };
 }

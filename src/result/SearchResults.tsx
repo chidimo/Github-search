@@ -1,40 +1,61 @@
-/* eslint-disable no-console */
-import { useMemo, useState } from 'react';
-import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
+import { useMemo, useReducer, Reducer, useEffect } from 'react';
+import { useNavigate, useSearch } from 'react-location';
 
-import { formatAsNumber } from '../utils';
 import {
+  TabTypes,
   DataArrayInterface,
   RepoResultInterface,
-  TabTypes,
   UserResultInterface,
 } from './interfaces';
+import { formatAsNumber } from '../utils';
+import { useSearchRepo, useSearchUsers } from '../shared/queryHooks';
 import { ResultCardRepo } from './ResultCardRepo';
 import { ResultCardUser } from './ResultCardUser';
 import styles from './SearchResults.module.scss';
 import { ToggleResultCategory } from './ToggleResultCategory';
-
-const repos: RepoResultInterface[] = [
-  {
-    id: 0,
-    name: 'DrKLO/Telegram',
-    description: 'Some random text',
-    language: 'javascript',
-    stars: 127_000,
-    license: 'MIT',
-    updated: new Date(),
-  },
-];
-
-const users: UserResultInterface[] = [
-  { id: 0, name: 'chidi', about: 'you too tafia' },
-];
+import {
+  initSearchState,
+  searchReducer,
+  SearchRepoType,
+  SearchReducerType,
+  SearchActionType,
+  searchUserReducer,
+  initSearchUserState,
+  SearchUserStateType,
+  SearchUserReducerType,
+  SearchUserActionType,
+} from './reducer';
+import { Pagination } from './Pagination';
 
 export const SearchResults = (): JSX.Element => {
-  const [ activeTab, setActiveTab ] = useState<string>(TabTypes.REPO);
+  const navigate = useNavigate();
+  const { activeTab, after, searchTerm } = useSearch();
 
-  const userCount = 120;
-  const repoCount = 492_000;
+  const [ queryVariables, dispatch ] = useReducer<
+    Reducer<SearchRepoType, SearchReducerType>
+  >(searchReducer, initSearchState);
+
+  const { loading: loadingRepos, data } = useSearchRepo(queryVariables);
+
+  const repo_list =
+    data?.search?.edges?.map(
+      (edge: { node: RepoResultInterface }) => edge.node
+    ) || [];
+
+  const repoCount = data?.search?.repositoryCount;
+
+  const [ userQueryVariables, userDispatch ] = useReducer<
+    Reducer<SearchUserStateType, SearchUserReducerType>
+  >(searchUserReducer, initSearchUserState);
+
+  const { loading: loadingUsers, data: usersData } =
+    useSearchUsers(userQueryVariables);
+
+  const userCount = usersData?.search?.userCount;
+  const users_list =
+    usersData?.search?.edges?.map(
+      (edge: { node: UserResultInterface }) => edge.node
+    ) || [];
 
   const dataArray: DataArrayInterface[] = useMemo(
     () => [
@@ -42,60 +63,91 @@ export const SearchResults = (): JSX.Element => {
         name: 'Repositories',
         count: repoCount,
         isActive: activeTab === TabTypes.REPO,
-        onClick: () => setActiveTab(TabTypes.REPO),
+        onClick: () =>
+          navigate({
+            search: (prev: any) => ({
+              ...prev,
+              after: undefined,
+              activeTab: TabTypes.REPO,
+            }),
+          }),
       },
       {
         name: 'Users',
         count: userCount,
         isActive: activeTab === TabTypes.USERS,
-        onClick: () => setActiveTab(TabTypes.USERS),
+        onClick: () =>
+          navigate({
+            search: (prev: any) => ({
+              ...prev,
+              after: undefined,
+              activeTab: TabTypes.USERS,
+            }),
+          }),
       },
     ],
-    [ activeTab ]
+    [ activeTab, data, usersData ]
   );
+
+  useEffect(() => {
+    dispatch({
+      type: SearchActionType.SET_SEARCH_FILTER,
+      payload: {
+        after,
+        searchTerm,
+      },
+    });
+    userDispatch({
+      type: SearchUserActionType.SET_USER_SEARCH,
+      payload: {
+        after,
+        searchTerm,
+      },
+    });
+  }, [ after, searchTerm ]);
 
   return (
     <div className={styles.search_result_container}>
       <ToggleResultCategory dataArray={dataArray} />
 
       <div className={styles.search_result_list}>
-        <div>
-          {activeTab === TabTypes.REPO && (
-            <h1>{formatAsNumber(repoCount)} repository results</h1>
-          )}
-          {activeTab === TabTypes.USERS && (
-            <h1>{formatAsNumber(userCount)} users</h1>
-          )}
-        </div>
+        {activeTab === TabTypes.REPO && (
+          <>
+            <h1>{formatAsNumber(repoCount)} Repository results</h1>
+            {loadingRepos && <p>Loading repositories</p>}
+            {!loadingRepos && repo_list?.length === 0 && (
+              <p>Your search did not match any repositories.</p>
+            )}
 
-        {activeTab === TabTypes.REPO &&
-          repos.map((res: RepoResultInterface) => (
-            <ResultCardRepo key={res.id} result={res} />
-          ))}
+            {repo_list.map((res: RepoResultInterface) => (
+              <ResultCardRepo key={res.id} result={res} />
+            ))}
 
-        {activeTab === TabTypes.USERS &&
-          users.map((res: UserResultInterface) => (
-            <ResultCardUser key={res.id} result={res} />
-          ))}
+            <Pagination
+              pageInfo={data?.search?.pageInfo}
+              itemCount={data?.search?.edges.length}
+            />
+          </>
+        )}
 
-        <div>
-          <span
-            className="pointer"
-            onClick={() => {
-              console.log('Previous');
-            }}
-          >
-            <MdNavigateBefore size={30} />
-          </span>
-          <span
-            className="pointer"
-            onClick={() => {
-              console.log('Next');
-            }}
-          >
-            <MdNavigateNext size={30} />
-          </span>
-        </div>
+        {activeTab === TabTypes.USERS && (
+          <>
+            <h1>{formatAsNumber(userCount)} Users</h1>
+            {loadingUsers && <p>Loading users</p>}
+            {!loadingUsers && users_list?.length === 0 && (
+              <p>Your search did not match any user.</p>
+            )}
+
+            {users_list.map((res: UserResultInterface) => (
+              <ResultCardUser key={res.id} result={res} />
+            ))}
+
+            <Pagination
+              pageInfo={usersData?.search?.pageInfo}
+              itemCount={usersData?.search?.edges.length}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -7,6 +7,9 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { reduxPersistor, store } from './store/store';
+import { ApolloProvider } from '@apollo/client';
+import { appCache } from './cache/appCache';
+import { ErrorBoundary } from './ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +18,11 @@ ReactDOM.render(
         persistor={reduxPersistor}
         loading={<p>Loading persistor</p>}
       >
-        <App />
+        <ApolloProvider client={appCache}>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </ApolloProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

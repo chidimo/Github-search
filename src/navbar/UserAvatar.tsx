@@ -1,33 +1,37 @@
 import clx from 'classnames';
 import { useCallback, useState } from 'react';
 import { CgChevronDown } from 'react-icons/cg';
+import { useNavigate } from 'react-location';
 import { useDispatch } from 'react-redux';
 import { resetUserLoggedIn } from '../store/login';
+import { useGetAuthUser } from './queryHooks';
 import styles from './useravatar.module.scss';
 
-const userName = 'Jane Doe';
-const img =
-  'https://ui-avatars.com/api/?name=user&background=43489b&color=fff&size=128';
-
 export const UserAvatar = (): JSX.Element => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { login, avatarUrl } = useGetAuthUser();
   const [ dropdownOpen, setDropdownOpen ] = useState<boolean>(false);
 
   const toggleDropdown = useCallback(() => {
     setDropdownOpen(!dropdownOpen);
   }, [ dropdownOpen ]);
 
-  const handleLogout = () => dispatch(resetUserLoggedIn());
+  const handleLogout = () => {
+    dispatch(resetUserLoggedIn());
+    navigate('/');
+  };
 
   return (
     <div className={styles.avatar_wrapper}>
-      <img src={img} alt="avatar" className={styles.avatar} />
+      <img src={avatarUrl} alt="avatar" className={styles.avatar} />
       <p
         className={clx([ styles.username ], {
-          [styles.wrap_name]: userName.length > 10,
+          [styles.wrap_name]: login?.length > 10,
         })}
       >
-        {userName}
+        {login}
       </p>
       <span className={styles.dropdown_toggle} onClick={toggleDropdown}>
         <CgChevronDown size={20} />
