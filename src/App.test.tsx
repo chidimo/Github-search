@@ -2,10 +2,10 @@ import {
   render,
   screen,
   waitForElementToBeRemoved,
-} from '../test-utils/render';
+} from './test-utils/render';
 import userEvent from '@testing-library/user-event';
 
-import App from '../App';
+import App from './App';
 
 describe('Authentication', () => {
   window.open = jest.fn();
