@@ -1,36 +1,29 @@
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
-import { useCallback, useState } from 'react';
 
 import styles from './searchform.module.scss';
-import { useNavigate } from 'react-location';
-import { TabTypes } from '../result/interfaces';
 
 type SearchFormProps = {
-  hasSubmitButton?: boolean;
+  value?: string;
+  onChangeCb?: (...args: any[]) => any;
+  handleSubmit?: (...args: any[]) => any;
 };
 
 export const SearchForm = (props: SearchFormProps): JSX.Element => {
-  const navigate = useNavigate();
-
-  const { hasSubmitButton } = props;
+  const { value, handleSubmit, onChangeCb } = props;
 
   const [ search, setSearch ] = useState<string>('');
 
-  const handleSubmitSearchPage = useCallback(
-    (event) => {
-      event?.preventDefault();
-      if (search.length === 0) {
-        return;
-      }
-      navigate(`/results?activeTab=${TabTypes.REPO}&searchTerm=${search}`);
-    },
-    [ search ]
-  );
+  // Load passed value on mount
+  // updates search value from url on the event
+  // of a page reload.
+  useEffect(() => setSearch(value || ''), []);
 
   return (
     <form
       action=""
-      onSubmit={handleSubmitSearchPage}
+      onSubmit={(e) => e.preventDefault()}
       className={styles.search_form}
     >
       <div className={styles.search_input_wrapper}>
@@ -41,28 +34,31 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
           type="search"
           title="search"
           value={search}
-          placeholder="Search ..."
+          placeholder="Search"
           className={styles.input}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            const { value: searchTerm } = e.target;
+            setSearch(searchTerm);
+            onChangeCb && onChangeCb(searchTerm);
+          }}
         />
         <span className={styles.search_icon}>
           <BsSearch size={24} />
         </span>
       </div>
 
-      {hasSubmitButton && (
+      {handleSubmit && (
         <button
           type="submit"
           className={styles.search_button}
-          onClick={handleSubmitSearchPage}
+          onClick={(e) => {
+            e?.preventDefault();
+            handleSubmit(search);
+          }}
         >
           Search Github
         </button>
       )}
     </form>
   );
-};
-
-SearchForm.defaultProps = {
-  hasSubmitButton: true,
 };
