@@ -21,6 +21,7 @@ export const ToggleResultCategory = (
         return (
           <div
             key={index}
+            data-testid={name}
             onClick={onClick}
             className={clx([ styles.result_tab ], {
               [styles.active_result_tab]: isActive,

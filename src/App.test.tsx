@@ -10,6 +10,8 @@ import App from './App';
 import { formatAsNumber } from './utils';
 import { repoSearchResults__page_1 } from './test-utils/repoSearchResults__page_1';
 import { repoSearchResults__page_2 } from './test-utils/repoSearchResults__page_2';
+import { userSearchResults__page_1 } from './test-utils/userSearchResults__page_1';
+import { userSearchResults__page_2 } from './test-utils/userSearchResults__page_2';
 
 describe('Application', () => {
   window.open = jest.fn();
@@ -24,20 +26,25 @@ describe('Application', () => {
     expect(screen.getByText(/login to github/i)).toBeInTheDocument();
   });
 
-  it('Should initiate repo search from search page', async () => {
-    const SEARCH_TERM = 'react';
+  it('Should login, search for repo, search for users', async () => {
+    const REPO_SEARCH_TERM = 'react';
+    const USER_SEARCH_TERM = 'chidi';
+
     render(<App />);
+
+    // LOGIN
     userEvent.click(screen.getByText(/login to github/i));
     await waitForElementToBeRemoved(() => screen.getByText(/Logging you in./i));
     expect(screen.getByText(/search github/i)).toBeInTheDocument();
-    const searchInput = screen.getByPlaceholderText(/search/i);
-    await userEvent.type(searchInput, SEARCH_TERM, { delay: 100 });
-    expect(searchInput).toHaveValue(SEARCH_TERM);
+
+    let searchInput = screen.getByPlaceholderText(/search/i);
+
+    await userEvent.type(searchInput, REPO_SEARCH_TERM, { delay: 100 });
+    expect(searchInput).toHaveValue(REPO_SEARCH_TERM);
     userEvent.click(screen.getByText(/search github/i));
 
-    // this line stays further code execution until our route transition is complete
+    // wait until route transition is complete
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-
     await waitForElementToBeRemoved(() =>
       screen.getByText(/Loading repositories/i)
     );
@@ -51,10 +58,14 @@ describe('Application', () => {
     repoSearchResults__page_1.search.edges.forEach((edge: any) => {
       expect(screen.getByText(edge.node.nameWithOwner)).toBeInTheDocument();
     });
+
+    // expect search input box is persisted from previous page
+    expect(searchInput).toHaveValue(REPO_SEARCH_TERM);
+
     // expect previous pagination icon is not visible yet.
     expect(screen.queryByTestId('paginationPrev')).not.toBeInTheDocument();
 
-    // go to next page
+    // NEXT PAGE
     userEvent.click(screen.getByTestId('paginationNext'));
     await waitForElementToBeRemoved(() =>
       screen.getByText(/Loading repositories/i)
@@ -66,7 +77,40 @@ describe('Application', () => {
     repoSearchResults__page_2.search.edges.forEach((edge: any) => {
       expect(screen.getByText(edge.node.nameWithOwner)).toBeInTheDocument();
     });
+
+    // USERS TAB
+    userEvent.click(screen.getByTestId('Users'));
+
+    // pagination icon is not yet visible
+    expect(screen.queryByTestId('paginationPrev')).not.toBeInTheDocument();
+
+    searchInput = screen.getByPlaceholderText(/search/i);
+    userEvent.clear(searchInput);
+    expect(searchInput).toHaveValue('');
+
+    await userEvent.type(searchInput, USER_SEARCH_TERM, { delay: 100 });
+    expect(searchInput).toHaveValue(USER_SEARCH_TERM);
+
+    // wait until graphql query resolves
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    // await waitForElementToBeRemoved(() => screen.getByText(/Loading users/i));
+
+    const userCount = formatAsNumber(
+      userSearchResults__page_1.search.userCount
+    );
+    expect(screen.getByText(`${userCount} Users`)).toBeInTheDocument();
+
+    userSearchResults__page_1.search.edges.forEach((edge: any) => {
+      expect(screen.getByText(edge.node.login)).toBeInTheDocument();
+    });
+
+    // NEXT PAGE
+    userEvent.click(screen.getByTestId('paginationNext'));
+    await waitForElementToBeRemoved(() => screen.getByText(/Loading users/i));
+    userSearchResults__page_2.search.edges.forEach((edge: any) => {
+      expect(screen.getByText(edge.node.login)).toBeInTheDocument();
+    });
+
     // screen.debug();
   });
 });
-
