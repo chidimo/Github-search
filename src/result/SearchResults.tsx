@@ -65,7 +65,11 @@ export const SearchResults = (): JSX.Element => {
         isActive: activeTab === TabTypes.REPO,
         onClick: () =>
           navigate({
-            search: (prev: any) => ({ ...prev, activeTab: TabTypes.REPO }),
+            search: (prev: any) => ({
+              ...prev,
+              after: undefined,
+              activeTab: TabTypes.REPO,
+            }),
           }),
       },
       {
@@ -74,7 +78,11 @@ export const SearchResults = (): JSX.Element => {
         isActive: activeTab === TabTypes.USERS,
         onClick: () =>
           navigate({
-            search: (prev: any) => ({ ...prev, activeTab: TabTypes.USERS }),
+            search: (prev: any) => ({
+              ...prev,
+              after: undefined,
+              activeTab: TabTypes.USERS,
+            }),
           }),
       },
     ],
@@ -103,35 +111,43 @@ export const SearchResults = (): JSX.Element => {
       <ToggleResultCategory dataArray={dataArray} />
 
       <div className={styles.search_result_list}>
-        <div>
-          {activeTab === TabTypes.REPO && (
+        {activeTab === TabTypes.REPO && (
+          <>
             <h1>{formatAsNumber(repoCount)} Repository results</h1>
-          )}
-          {activeTab === TabTypes.USERS && (
-            <h1>{formatAsNumber(userCount)} Users</h1>
-          )}
-        </div>
+            {loadingRepos && <p>Loading repositories</p>}
+            {!loadingRepos && repo_list?.length === 0 && (
+              <p>Your search did not match any repositories.</p>
+            )}
 
-        {activeTab === TabTypes.REPO && loadingRepos && (
-          <p>Loading repositories</p>
+            {repo_list.map((res: RepoResultInterface) => (
+              <ResultCardRepo key={res.id} result={res} />
+            ))}
+
+            <Pagination
+              pageInfo={data?.search?.pageInfo}
+              itemCount={data?.search?.edges.length}
+            />
+          </>
         )}
 
-        {activeTab === TabTypes.REPO &&
-          repo_list.map((res: RepoResultInterface) => (
-            <ResultCardRepo key={res.id} result={res} />
-          ))}
+        {activeTab === TabTypes.USERS && (
+          <>
+            <h1>{formatAsNumber(userCount)} Users</h1>
+            {loadingUsers && <p>Loading users</p>}
+            {!loadingUsers && users_list?.length === 0 && (
+              <p>Your search did not match any user.</p>
+            )}
 
-        {activeTab === TabTypes.USERS && loadingUsers && <p>Loading users</p>}
+            {users_list.map((res: UserResultInterface) => (
+              <ResultCardUser key={res.id} result={res} />
+            ))}
 
-        {activeTab === TabTypes.USERS &&
-          users_list.map((res: UserResultInterface) => (
-            <ResultCardUser key={res.id} result={res} />
-          ))}
-
-        <Pagination
-          pageInfo={data?.search?.pageInfo}
-          itemCount={data?.search?.edges.length}
-        />
+            <Pagination
+              pageInfo={usersData?.search?.pageInfo}
+              itemCount={usersData?.search?.edges.length}
+            />
+          </>
+        )}
       </div>
     </div>
   );
