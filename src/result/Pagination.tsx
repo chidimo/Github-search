@@ -13,10 +13,11 @@ export const Pagination = (props: PaginationProps): JSX.Element => {
   const { pageInfo, itemCount } = props;
 
   return (
-    <div className='centered_text'>
+    <div className="centered_text">
       {pageInfo?.hasPreviousPage && (
         <span
           className="pointer"
+          data-testid="paginationPrev"
           onClick={() => {
             navigate({
               search: (prev: any) => ({
@@ -36,6 +37,7 @@ export const Pagination = (props: PaginationProps): JSX.Element => {
       {pageInfo?.hasNextPage && itemCount >= 10 && (
         <span
           className="pointer"
+          data-testid="paginationNext"
           onClick={() => {
             navigate({
               search: (prev: any) => ({
