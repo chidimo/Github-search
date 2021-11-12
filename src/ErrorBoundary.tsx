@@ -1,4 +1,5 @@
-import { Component, } from 'react';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Component } from 'react';
 
 const FallBack = () => {
   return (
@@ -22,7 +23,7 @@ const FallBack = () => {
 };
 
 type ErrorBoundaryType = {
-  children: any ;
+  children: any;
 };
 
 type ErrorBoundaryState = {
@@ -35,14 +36,14 @@ class ErrorBoundary extends Component<ErrorBoundaryType, ErrorBoundaryState> {
     hasError: false,
   };
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(error: any): any {
     return { hasError: true, error };
   }
-  componentDidCatch(error: any, info: any) {
+  componentDidCatch(error: any, info: any): void {
     // eslint-disable-next-line no-console
     console.error({ error, info });
   }
-  render() {
+  render(): JSX.Element {
     const { hasError } = this.state;
     if (hasError) {
       return <FallBack />;
