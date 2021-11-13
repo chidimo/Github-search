@@ -39,6 +39,8 @@ describe('Application', () => {
 
     let searchInput = screen.getByPlaceholderText(/search/i);
 
+    expect(searchInput).toHaveFocus();
+
     await userEvent.type(searchInput, REPO_SEARCH_TERM, { delay: 100 });
     expect(searchInput).toHaveValue(REPO_SEARCH_TERM);
     userEvent.click(screen.getByText(/search github/i));
