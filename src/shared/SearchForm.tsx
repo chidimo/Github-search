@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
+import { useFocus } from '../hooks/useFocus';
 
 import styles from './searchform.module.scss';
 
@@ -14,6 +15,7 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
   const { value, handleSubmit, onChangeCb } = props;
 
   const [ search, setSearch ] = useState<string>('');
+  const inputRef = useFocus();
 
   // Load passed value on mount
   // updates search value from url on the event
@@ -34,6 +36,7 @@ export const SearchForm = (props: SearchFormProps): JSX.Element => {
           type="search"
           title="search"
           value={search}
+          ref={inputRef}
           placeholder="Search"
           className={styles.input}
           onChange={(e) => {
