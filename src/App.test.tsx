@@ -12,6 +12,7 @@ import { repoSearchResults__page_1 } from './test-utils/repoSearchResults__page_
 import { repoSearchResults__page_2 } from './test-utils/repoSearchResults__page_2';
 import { userSearchResults__page_1 } from './test-utils/userSearchResults__page_1';
 import { userSearchResults__page_2 } from './test-utils/userSearchResults__page_2';
+import { REPO_SEARCH_TERM, USER_SEARCH_TERM } from './test-utils/searchTerms';
 
 describe('Application', () => {
   window.open = jest.fn();
@@ -27,8 +28,7 @@ describe('Application', () => {
   });
 
   it('Should login, search for repo, search for users', async () => {
-    const REPO_SEARCH_TERM = 'react';
-    const USER_SEARCH_TERM = 'chidi';
+
 
     render(<App />);
 
