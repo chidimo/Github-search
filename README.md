@@ -30,13 +30,15 @@ A clone of the Github search bar
 
 ## How to run tests
 
-1. To run tests, use the command
+1. To run tests and generate coverage, use the command
 
-        yarn test
+        yarn test --coverage
+
+![Coverage](./images/test-coverage.png)
 
 ## Notes on styling
 
-I decided to use `css` modules for this app since its simple enough. Personally I prefer styled components (or any other UI library). But I thought it overkill to use any for this exercise.
+I decided to use `CSS` modules for this app since its a simple app. Personally I prefer styled components (or any other UI library). But I thought it overkill to use any for this exercise.
 
 ## Notes on colors
 

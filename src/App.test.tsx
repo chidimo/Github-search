@@ -12,12 +12,12 @@ import { repoSearchResults__page_1 } from './test-utils/repoSearchResults__page_
 import { repoSearchResults__page_2 } from './test-utils/repoSearchResults__page_2';
 import { userSearchResults__page_1 } from './test-utils/userSearchResults__page_1';
 import { userSearchResults__page_2 } from './test-utils/userSearchResults__page_2';
+import { repoSearch_indicina_page_1 } from './test-utils/repoSearch_indicina_page_1';
 import {
   REPO_SEARCH_TERM,
   USER_SEARCH_TERM,
   REPO_SEARCH_INDICINA,
 } from './test-utils/searchTerms';
-import { repoSearch_indicina_page_1 } from './test-utils/repoSearch_indicina_page_1';
 
 describe('Application', () => {
   window.open = jest.fn();
