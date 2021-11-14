@@ -12,7 +12,12 @@ import { repoSearchResults__page_1 } from './test-utils/repoSearchResults__page_
 import { repoSearchResults__page_2 } from './test-utils/repoSearchResults__page_2';
 import { userSearchResults__page_1 } from './test-utils/userSearchResults__page_1';
 import { userSearchResults__page_2 } from './test-utils/userSearchResults__page_2';
-import { REPO_SEARCH_TERM, USER_SEARCH_TERM } from './test-utils/searchTerms';
+import {
+  REPO_SEARCH_TERM,
+  USER_SEARCH_TERM,
+  REPO_SEARCH_INDICINA,
+} from './test-utils/searchTerms';
+import { repoSearch_indicina_page_1 } from './test-utils/repoSearch_indicina_page_1';
 
 describe('Application', () => {
   window.open = jest.fn();
@@ -115,6 +120,28 @@ describe('Application', () => {
         expect(screen.getByText(edge.node.login)).toBeInTheDocument();
       });
 
-    // screen.debug();
+    // TEST SEARCH ON RESULT PAGE
+
+    // return to repo tab
+    userEvent.click(screen.getByTestId('Repositories'));
+    searchInput = screen.getByPlaceholderText(/search/i);
+    userEvent.clear(searchInput);
+    expect(searchInput).toHaveValue('');
+
+    await userEvent.type(searchInput, REPO_SEARCH_INDICINA, { delay: 100 });
+    expect(searchInput).toHaveValue(REPO_SEARCH_INDICINA);
+
+    // wait until graphql query resolves
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+
+    const indicinaRepoCount = formatAsNumber(
+      repoSearch_indicina_page_1.search.repositoryCount
+    );
+    expect(
+      screen.getByText(`${indicinaRepoCount} Repository results`)
+    ).toBeInTheDocument();
+    repoSearch_indicina_page_1.search.edges.forEach((edge: any) => {
+      expect(screen.getByText(edge.node.nameWithOwner)).toBeInTheDocument();
+    });
   });
 });
