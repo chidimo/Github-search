@@ -2,20 +2,6 @@
 
 A clone of the Github search bar
 
-## Todo
-
-1. Show dropdown options when typing for users to select if they want to search for repo or users.
-
-        a. Write test to cover these
-        b.
-
-1. Debug situation where empty items are showing for search users.
-1. Include screenshots in instructions.
-1. Check for `any` types to remove
-1. OPTIONAL: Update react-location
-1. OPTIONAL: Include test coverage screenshot.
-1. OPTIONAL: Dockerize app
-
 ## How to run this project
 
 1. Make sure you have `Node.js` (version 12 and above) and `npm` installed.
