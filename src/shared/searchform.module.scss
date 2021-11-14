@@ -40,21 +40,3 @@
 .search_button {
   margin-top: 25px;
 }
-
-.suggest_options {
-  text-align: left;
-  position: absolute;
-  width: 100%;
-  overflow: scroll;
-  background: cyan;
-  border-radius: 7px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 4px;
-}
-
-.selected_option {
-  background-color: rebeccapurple;
-}
-
-.option {
-  cursor: pointer;
-}
