@@ -138,9 +138,11 @@ export const SearchResults = (): JSX.Element => {
               <p>Your search did not match any user.</p>
             )}
 
-            {users_list.map((res: UserResultInterface) => (
-              <ResultCardUser key={res.id} result={res} />
-            ))}
+            {users_list
+              .filter((user: UserResultInterface) => Boolean(user.login))
+              .map((res: UserResultInterface) => (
+                <ResultCardUser key={res.id} result={res} />
+              ))}
 
             <Pagination
               pageInfo={usersData?.search?.pageInfo}

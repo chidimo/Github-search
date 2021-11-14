@@ -28,8 +28,6 @@ describe('Application', () => {
   });
 
   it('Should login, search for repo, search for users', async () => {
-
-
     render(<App />);
 
     // LOGIN
@@ -102,16 +100,20 @@ describe('Application', () => {
     );
     expect(screen.getByText(`${userCount} Users`)).toBeInTheDocument();
 
-    userSearchResults__page_1.search.edges.forEach((edge: any) => {
-      expect(screen.getByText(edge.node.login)).toBeInTheDocument();
-    });
+    userSearchResults__page_1.search.edges
+      .filter((user) => Boolean(user.node.login))
+      .forEach((edge: any) => {
+        expect(screen.getByText(edge.node.login)).toBeInTheDocument();
+      });
 
     // NEXT PAGE
     userEvent.click(screen.getByTestId('paginationNext'));
     await waitForElementToBeRemoved(() => screen.getByText(/Loading users/i));
-    userSearchResults__page_2.search.edges.forEach((edge: any) => {
-      expect(screen.getByText(edge.node.login)).toBeInTheDocument();
-    });
+    userSearchResults__page_2.search.edges
+      .filter((user) => Boolean(user.node.login))
+      .forEach((edge: any) => {
+        expect(screen.getByText(edge.node.login)).toBeInTheDocument();
+      });
 
     // screen.debug();
   });
