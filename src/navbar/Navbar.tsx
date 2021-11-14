@@ -1,4 +1,4 @@
-import { useLocation, useSearch } from 'react-location';
+import { Link, useLocation, useSearch } from 'react-location';
 import clx from 'classnames';
 import { Branding } from '../shared/Branding';
 import { SearchForm } from '../shared/SearchForm';
@@ -11,7 +11,6 @@ export const Navbar = (): JSX.Element => {
   const { searchTerm } = useSearch();
   const { debouncedSearch } = useDebouncedSearch();
 
-
   return (
     <nav
       className={clx([ styles.navbar ], {
@@ -20,7 +19,9 @@ export const Navbar = (): JSX.Element => {
     >
       {current.pathname === '/results' && (
         <>
-          <Branding hideNameOnSmall={true} addVerticalMargins={false} />
+          <Link to="/" className={styles.link}>
+            <Branding hideNameOnSmall={true} addVerticalMargins={false} />
+          </Link>
           <SearchForm
             value={searchTerm}
             onChangeCb={(value: string) => debouncedSearch(value)}

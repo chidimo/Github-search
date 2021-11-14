@@ -11,6 +11,8 @@ A clone of the Github search bar
 
 1. Debug situation where empty items are showing for search users.
 1. Include screenshots in instructions.
+1. Check for `any` types to remove
+1. OPTIONAL: Update react-location
 1. OPTIONAL: Include test coverage screenshot.
 1. OPTIONAL: Dockerize app
 
@@ -45,6 +47,10 @@ A clone of the Github search bar
 1. To run tests, use the command
 
         yarn test
+
+## Notes on styling
+
+I decided to use `css` modules for this app since its simple enough. Personally I prefer styled components (or any other UI library). But I thought it overkill to use any for this exercise.
 
 ## Notes on colors
 

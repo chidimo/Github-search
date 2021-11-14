@@ -16,7 +16,7 @@ export const ResultCardUser = (props: ResultCardUserProps): JSX.Element => {
         </h1>
         <p className={styles.username}>{name}</p>
       </div>
-      <p>{bio}</p>
+      <p className={styles.user_bio}>{bio}</p>
     </div>
   );
 };

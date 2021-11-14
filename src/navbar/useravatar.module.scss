@@ -31,12 +31,12 @@
 
 .dropdown::after {
   position: absolute;
-    display: inline-block;
-    content: "";
-    top: -14px;
-    right: 10px;
-    border: 7px solid transparent;
-    border-bottom-color: #c4c4c4;
+  display: inline-block;
+  content: "";
+  top: -14px;
+  right: 10px;
+  border: 7px solid transparent;
+  border-bottom-color: #c4c4c4;
 }
 
 .dropdown {
@@ -48,6 +48,7 @@
   color: red;
   padding: 10px;
   border-radius: 3px;
+  background: white;
   border: 0.5px solid #c4c4c4;
 }
 
