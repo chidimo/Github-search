@@ -48,6 +48,10 @@ A clone of the Github search bar
 
         yarn test
 
+## Extra notes
+
+I did implement the dropdown to select either repo or users on the search page. I removed it from the master branch since it wasn't part of the task specification. Its available on the [feature/search-option-dropdown](https://github.com/chidimo/Github-search/tree/feature/search-option-dropdown)
+
 ## Notes on styling
 
 I decided to use `css` modules for this app since its simple enough. Personally I prefer styled components (or any other UI library). But I thought it overkill to use any for this exercise.
@@ -60,3 +64,8 @@ The colors used on the app are an approximation to that in the actual design. Th
 
 1. Visit [here](https://github.com/settings/applications/new) to register a new application.
 1. Fill out application details. Use <http://localhost:3000> as the Homepage URL and Authorization callback URL.
+
+## Resources
+
+1. <https://freshman.tech/snippets/typescript/fix-value-not-exist-eventtarget/>
+1. <https://developers.google.com/web/fundamentals/accessibility/focus/using-tabindex>
